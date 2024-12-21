@@ -11,7 +11,7 @@ class AdminController extends Controller
             $user = Auth::user();
 
             if ($user->usertype == 'user') {
-                return view('dashboard');
+                return view('hotel.index');
             } else if ($user->usertype == 'admin') {
                 return view('admin.index');
             } else {
@@ -21,8 +21,7 @@ class AdminController extends Controller
             return redirect()->route('login');
         }
     }
-
-    public function adminIndex() {
-        return view('admin.index');
+    public function hotel() {
+        return view('hotel.index');
     }
 }
