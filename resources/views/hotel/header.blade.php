@@ -38,6 +38,31 @@
     .dropdown-menu-right {
         right: 0;
         left: auto;
+        background-color: #f8f9fa; /* Light background color */
+        border: 1px solid #dee2e6; /* Border color */
+        border-radius: 0.25rem; /* Rounded corners */
+    }
+
+    .dropdown-item {
+        color: #343a40; /* Text color */
+        padding: 0.5rem 1rem; /* Padding */
+        transition: background-color 0.2s ease-in-out; /* Smooth transition */
+    }
+
+    .dropdown-item:hover {
+        background-color: #e9ecef; /* Hover background color */
+        color: #212529; /* Hover text color */
+    }
+
+    .dropdown-item:focus {
+        background-color: #e9ecef; /* Focus background color */
+        color: #212529; /* Focus text color */
+        outline: none; /* Remove default outline */
+    }
+
+    .dropdown-item.active {
+        background-color: #007bff; /* Active background color */
+        color: #fff; /* Active text color */
     }
 </style>
 
@@ -58,7 +83,7 @@
                 </div>
                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
                     <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+                        <button class="navbar-toggle d-md-none" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarsExample04">
@@ -76,9 +101,6 @@
                                     <a class="nav-link" href="gallery.html">Gallery</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="blog.html">Blog</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" href="contact.html">Contact Us</a>
                                 </li>
                             </ul>
@@ -89,8 +111,29 @@
                                         <i class="fa fa-user"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                        <a class="dropdown-item" href="{{url('login')}}">Login</a>
-                                        <a class="dropdown-item" href="{{url('register')}}">Register</a>
+                                        @if (Route::has('login'))
+                                            @auth
+                                                <a href="{{ route('profile.show') }}" class="dropdown-item">
+                                                    <i class="fa fa-user"></i> Profile
+                                                </a>
+                                                <form method="POST" action="{{ route('logout') }}">
+                                                    @csrf
+                                                    <button type="submit" class="dropdown-item">
+                                                        <i class="fa fa-sign-out"></i> Log Out
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <a href="{{route('login')}}" class="dropdown-item">
+                                                    <i class="fa fa-sign-in"></i> Log in
+                                                </a>
+
+                                                @if (Route::has('register'))
+                                                    <a href="{{route('register')}}" class="dropdown-item">
+                                                        <i class="fa fa-user-plus"></i> Register
+                                                    </a>
+                                                @endif
+                                            @endauth
+                                        @endif
                                     </div>
                                 </li>
                             </ul>
