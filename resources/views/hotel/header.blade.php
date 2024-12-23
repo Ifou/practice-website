@@ -76,9 +76,8 @@
                     <div class="full">
                         <div class="center-desk">
                             <div class="logo">
-                                <a href="index.html"><img src="images/logo.png" alt="#" /></a>
+                                <a href="{{ route('hotel') }}"><img src="images/logo.png" alt="#" /></a>                            </div>
                             </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
