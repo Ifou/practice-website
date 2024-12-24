@@ -24,6 +24,7 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Image</th>
@@ -37,6 +38,7 @@
                                 <tbody>
                                 @foreach($rooms as $room)
                                     <tr>
+                                        <td>{{ $room->id }}</td>
                                         <td>{{ $room->room_title }}</td>
                                         <td>{{ $room->room_description }}</td>
                                         <td>

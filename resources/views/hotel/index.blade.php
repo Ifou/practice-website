@@ -38,20 +38,10 @@
                     <div class="col-md-5">
                         <div class="book_room">
                             <h1>Book a Room Online</h1>
-                            <form class="book_now">
+                            <form class="book_now" action="{{ route('book') }}" method="GET">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <span>Arrival</span>
-                                        <img class="date_cua" src="{{ asset('images/date.png') }}" alt="Date picker icon">
-                                        <input class="online_book" placeholder="dd/mm/yyyy" type="date" name="dd/mm/yyyy">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <span>Departure</span>
-                                        <img class="date_cua" src="{{ asset('images/date.png') }}" alt="Date picker icon">
-                                        <input class="online_book" placeholder="dd/mm/yyyy" type="date" name="dd/mm/yyyy">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <button class="book_btn">Book Now</button>
+                                        <button class="book_btn" type="submit">Book Now</button>
                                     </div>
                                 </div>
                             </form>
@@ -84,89 +74,49 @@
     </div>
     <!-- end about -->
     <!-- our_room -->
-    <div  class="our_room">
+    <div class="our_room">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="titlepage">
-                        <h2>Our Room</h2>
-                        <p>Lorem Ipsum available, but the majority have suffered </p>
+                        <h2>Our Rooms</h2>
+                        <p>Pick Your Poison! </p>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-6">
-                    <div class="room room-hover" id="room-1">
-                        <div class="room_img">
-                            <figure><img src="images/room1.jpg" alt="#"/></figure>
-                        </div>
-                        <div class="bed_room">
-                            <h3>Bed Room</h3>
-                            <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="room room-hover" id="room-2">
-                        <div class="room_img">
-                            <figure><img src="images/room2.jpg" alt="#"/></figure>
-                        </div>
-                        <div class="bed_room">
-                            <h3>Bed Room</h3>
-                            <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="room room-hover" id="room-3">
-                        <div class="room_img">
-                            <figure><img src="images/room3.jpg" alt="#"/></figure>
-                        </div>
-                        <div class="bed_room">
-                            <h3>Bed Room</h3>
-                            <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there </p>
+                @foreach($rooms as $room)
+                    <div class="col-md-4 col-sm-6">
+                        <div class="room room-hover" id="room-{{ $room->id }}">
+                            <div class="room_img">
+                                <figure><img src="{{ asset('images/' . $room->room_image) }}" alt="{{ $room->room_title }}" style="width: 400px; height: 200px;"/></figure>
+                            </div>
+                            <div class="bed_room">
+                                <h3>{{ $room->room_title }}</h3>
+                                <p>{{ $room->room_description }}</p>
+                                <br>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#roomModal"
+                                        data-id="{{ $room->id }}"
+                                        data-title="{{ $room->room_title }}"
+                                        data-description="{{ $room->room_description }}"
+                                        data-image="{{ asset('images/' . $room->room_image) }}"
+                                        data-price="{{ $room->room_price }}"
+                                        data-type="{{ $room->room_type }}"
+                                        data-status="{{ $room->room_status }}"
+                                        data-capacity="{{ $room->room_capacity }}"
+                                        data-wifi="{{ $room->room_wifi }}">
+                                    View Room
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="room room-hover" id="room-4">
-                        <div class="room_img">
-                            <figure><img src="images/room4.jpg" alt="#"/></figure>
-                        </div>
-                        <div class="bed_room">
-                            <h3>Bed Room</h3>
-                            <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="room room-hover" id="room-5">
-                        <div class="room_img">
-                            <figure><img src="images/room5.jpg" alt="#"/></figure>
-                        </div>
-                        <div class="bed_room">
-                            <h3>Bed Room</h3>
-                            <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="room room-hover" id="room-6">
-                        <div class="room_img">
-                            <figure><img src="images/room6.jpg" alt="#"/></figure>
-                        </div>
-                        <div class="bed_room">
-                            <h3>Bed Room</h3>
-                            <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there </p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
-    <!-- end our_room -->
+    <!-- our_room -->
     <!-- gallery -->
-    <div  class="gallery">
+    <div class="gallery">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -176,103 +126,49 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-sm-6">
-                    <div class="gallery_img">
-                        <figure><img src="{{ asset('images/gallery1.jpg') }}" alt="Gallery image 1"/></figure>
+                @foreach($rooms as $room)
+                    <div class="col-md-4 col-sm-6">
+                        <div class="room room-hover" id="room-{{ $room->id }}">
+                            <div class="room_img">
+                                <figure><img src="{{ asset('images/' . $room->room_image) }}" alt="{{ $room->room_title }}" style="width: 400px; height: 200px;"/></figure>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="gallery_img">
-                        <figure><img src="images/gallery2.jpg" alt="#"/></figure>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="gallery_img">
-                        <figure><img src="images/gallery3.jpg" alt="#"/></figure>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="gallery_img">
-                        <figure><img src="images/gallery4.jpg" alt="#"/></figure>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="gallery_img">
-                        <figure><img src="{{ asset('images/gallery5.jpg') }}" alt="Gallery image 5"/></figure>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="gallery_img">
-                        <figure><img src="images/gallery6.jpg" alt="#"/></figure>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="gallery_img">
-                        <figure><img src="images/gallery7.jpg" alt="#"/></figure>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="gallery_img">
-                        <figure><img src="images/gallery8.jpg" alt="#"/></figure>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
+                @endforeach
             </div>
-            <!-- end gallery -->
         </div>
-        <!-- end gallery -->
-        <!-- blog -->
-        <div  class="blog">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="titlepage">
-                            <h2>Blog</h2>
-                            <p>Lorem Ipsum available, but the majority have suffered </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="blog_box">
-                            <div class="blog_img">
-                                <figure><img src="images/blog1.jpg" alt="#"/></figure>
-                            </div>
-                            <div class="blog_room">
-                                <h3>Bed Room</h3>
-                                <span>The standard chunk </span>
-                                <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generatorsIf you are   </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="blog_box">
-                            <div class="blog_img">
-                                <figure><img src="images/blog2.jpg" alt="#"/></figure>
-                            </div>
-                            <div class="blog_room">
-                                <h3>Bed Room</h3>
-                                <span>The standard chunk </span>
-                                <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generatorsIf you are   </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="blog_box">
-                            <div class="blog_img">
-                                <figure><img src="images/blog3.jpg" alt="#"/></figure>
-                            </div>
-                            <div class="blog_room">
-                                <h3>Bed Room</h3>
-                                <span>The standard chunk </span>
-                                <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generatorsIf you are   </p>
-                            </div>
-                        </div>
+    </div>
+    <!-- end gallery -->
+    <!-- blog -->
+    <div class="blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="titlepage">
+                        <h2>Blog</h2>
+                        <p>Lorem Ipsum available, but the majority have suffered </p>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                @foreach($rooms as $room)
+                    <div class="col-md-4">
+                        <div class="blog_box">
+                            <div class="blog_img">
+                                <figure><img src="{{ asset('images/' . $room->room_image) }}" alt="{{ $room->room_title }}" style="width: 400px; height: 200px;"/></figure>
+                            </div>
+                            <div class="blog_room">
+                                <h3>{{ $room->room_title }}</h3>
+                                <span>{{ $room->room_type }}</span>
+                                <p>{{ $room->room_description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
-        <!-- end blog -->
+    </div>
+    <!-- end blog -->
         <!--  contact -->
         <div class="contact">
             <div class="container">
@@ -319,5 +215,56 @@
         <!--  footer -->
         @include('hotel.footer')
         </body>
+
+<!-- Room Modal -->
+<div class="modal fade" id="roomModal" tabindex="-1" role="dialog" aria-labelledby="roomModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roomModalLabel">Room Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #000000">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="roomImage" src="" alt="Room Image" class="img-fluid mb-3">
+                <h3 id="roomTitle"></h3>
+                <p id="roomDescription"></p>
+                <p><strong>Price:</strong> <span id="roomPrice"></span></p>
+                <p><strong>Type:</strong> <span id="roomType"></span></p>
+                <p><strong>Status:</strong> <span id="roomStatus"></span></p>
+                <p><strong>Capacity:</strong> <span id="roomCapacity"></span></p>
+                <p><strong>WiFi:</strong> <span id="roomWifi"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#roomModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var roomId = button.data('id');
+        var roomTitle = button.data('title');
+        var roomDescription = button.data('description');
+        var roomImage = button.data('image');
+        var roomPrice = button.data('price');
+        var roomType = button.data('type');
+        var roomStatus = button.data('status');
+        var roomCapacity = button.data('capacity');
+        var roomWifi = button.data('wifi');
+
+        var modal = $(this);
+        modal.find('#roomModalLabel').text(roomTitle);
+        modal.find('#roomTitle').text(roomTitle);
+        modal.find('#roomDescription').text(roomDescription);
+        modal.find('#roomImage').attr('src', roomImage);
+        modal.find('#roomPrice').text(roomPrice);
+        modal.find('#roomType').text(roomType);
+        modal.find('#roomStatus').text(roomStatus);
+        modal.find('#roomCapacity').text(roomCapacity);
+        modal.find('#roomWifi').text(roomWifi);
+    });
+</script>
+
 </html>
 

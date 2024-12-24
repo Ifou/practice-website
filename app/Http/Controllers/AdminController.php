@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Room;
+use App\Models\Booking;
+
 class AdminController extends Controller
 {
     public function index() {
@@ -22,7 +24,8 @@ class AdminController extends Controller
         }
     }
     public function hotel() {
-        return view('hotel.index');
+        $rooms = Room::all(); // Fetch all rooms
+        return view('hotel.index', compact('rooms'));
     }
 
     public function create_room() {
@@ -46,14 +49,14 @@ class AdminController extends Controller
         $request->room_image->move(public_path('images'), $imageName);
 
         Room::create([
-            'room_title' => $request->room_title,
-            'room_description' => $request->room_description,
+            'room_title' => htmlspecialchars($request->room_title),
+            'room_description' => htmlspecialchars($request->room_description),
             'room_image' => $imageName,
-            'room_price' => $request->room_price,
-            'room_type' => $request->room_type,
-            'room_status' => $request->room_status,
-            'room_capacity' => $request->room_capacity,
-            'room_wifi' => $request->room_wifi,
+            'room_price' => htmlspecialchars($request->room_price),
+            'room_type' => htmlspecialchars($request->room_type),
+            'room_status' => htmlspecialchars($request->room_status),
+            'room_capacity' => htmlspecialchars($request->room_capacity),
+            'room_wifi' => htmlspecialchars($request->room_wifi),
         ]);
 
         return redirect()->back()->with('success', 'Room added successfully.')->with('image', $imageName);
@@ -117,6 +120,39 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('view')->with('success', 'Room updated successfully.');
+    }
+
+    public function getRoomDetails($id)
+    {
+        $room = Room::find($id);
+        return response()->json($room);
+    }
+
+    public function book() {
+        $rooms = Room::all(); // Fetch all created rooms
+        return view('hotel.book', compact('rooms'));
+    }
+    public function storeBooking(Request $request)
+    {
+        $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'full_name' => 'required|string|max:255',
+            'number' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        Booking::create([
+            'room_id' => $request->room_id,
+            'full_name' => htmlspecialchars($request->full_name),
+            'number' => htmlspecialchars($request->number),
+            'email' => htmlspecialchars($request->email),
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+
+        return redirect()->back()->with('success', 'Booking successful.');
     }
 
 }

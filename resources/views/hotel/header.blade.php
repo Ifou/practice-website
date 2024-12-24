@@ -64,6 +64,50 @@
         background-color: #007bff; /* Active background color */
         color: #fff; /* Active text color */
     }
+
+    .modal-content {
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+        background-color: #ffffff;
+        color: white;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .modal-title {
+        font-weight: bold;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .modal-body img {
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .modal-body p {
+        margin-bottom: 10px;
+    }
+
+    .modal-footer {
+        background-color: #f1f1f1;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .close {
+        color: white;
+        opacity: 1;
+    }
+
+    .close:hover {
+        color: #ccc;
+    }
 </style>
 
 <!-- header -->
@@ -88,7 +132,7 @@
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="index.html">Home</a>
+                                    <a class="nav-link" href={{route('hotel')}}>Home</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="about.html">About</a>
