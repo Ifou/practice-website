@@ -13,7 +13,8 @@ class AdminController extends Controller
             $user = Auth::user();
 
             if ($user->usertype == 'user') {
-                return view('hotel.index');
+                $rooms = Room::all(); // Fetch all rooms
+                return view('hotel.index', compact('rooms'));
             } else if ($user->usertype == 'admin') {
                 return view('admin.index');
             } else {
@@ -120,39 +121,6 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('view')->with('success', 'Room updated successfully.');
-    }
-
-    public function getRoomDetails($id)
-    {
-        $room = Room::find($id);
-        return response()->json($room);
-    }
-
-    public function book() {
-        $rooms = Room::all(); // Fetch all created rooms
-        return view('hotel.book', compact('rooms'));
-    }
-    public function storeBooking(Request $request)
-    {
-        $request->validate([
-            'room_id' => 'required|exists:rooms,id',
-            'full_name' => 'required|string|max:255',
-            'number' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-        ]);
-
-        Booking::create([
-            'room_id' => $request->room_id,
-            'full_name' => htmlspecialchars($request->full_name),
-            'number' => htmlspecialchars($request->number),
-            'email' => htmlspecialchars($request->email),
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-        ]);
-
-        return redirect()->back()->with('success', 'Booking successful.');
     }
 
 }

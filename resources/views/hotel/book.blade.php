@@ -57,11 +57,11 @@
                     </div>
                     <div class="form-group">
                         <label for="start_date">Start Date</label>
-                        <input type="date" class="form-control" id="start_date" name="start_date" required>
+                        <input type="date" class="form-control" id="start_date" name="start_date" required min="{{ date('Y-m-d') }}">
                     </div>
                     <div class="form-group">
                         <label for="end_date">End Date</label>
-                        <input type="date" class="form-control" id="end_date" name="end_date" required>
+                        <input type="date" class="form-control" id="end_date" name="end_date" required min="{{ date('Y-m-d') }}">
                     </div>
                     <button type="submit" class="btn btn-primary">Book Now</button>
                 </form>
