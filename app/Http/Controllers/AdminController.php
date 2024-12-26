@@ -41,7 +41,7 @@ class AdminController extends Controller
             'room_image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'room_price' => 'required|string|max:255',
             'room_type' => 'required|string|max:255',
-            'room_status' => 'required|string|max:255',
+            'room_status' => 'required|string|in:Vacant,Waiting,Booked',
             'room_capacity' => 'required|string|max:255',
             'room_wifi' => 'required|string|max:255',
         ]);

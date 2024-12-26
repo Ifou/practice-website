@@ -55,25 +55,32 @@
                         Please provide a room price.
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="room_type">Room Type</label>
-                    <select class="form-control" id="room_type" name="room_type" required>
-                        <option value="" disabled selected>Select Room Type</option>
-                        <option value="Presidential Suite">Presidential Suite</option>
-                        <option value="Executive Suite">Executive Suite</option>
-                        <option value="Junior Suite">Junior Suite</option>
-                        <option value="Deluxe Room">Deluxe Room</option>
-                        <option value="Standard Room">Standard Room</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a room type.
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="room_type">Room Type</label>
+                        <select class="form-control" id="room_type" name="room_type" required>
+                            <option value="" disabled selected>Select Room Type</option>
+                            <option value="Presidential Suite">Presidential Suite</option>
+                            <option value="Executive Suite">Executive Suite</option>
+                            <option value="Junior Suite">Junior Suite</option>
+                            <option value="Deluxe Room">Deluxe Room</option>
+                            <option value="Standard Room">Standard Room</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a room type.
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="room_status">Room Status</label>
-                    <input type="text" class="form-control" id="room_status" name="room_status" required>
-                    <div class="invalid-feedback">
-                        Please provide a room status.
+                    <div class="form-group col-md-6">
+                        <label for="room_status">Room Status</label>
+                        <select class="form-control" id="room_status" name="room_status" required>
+                            <option value="" disabled selected>Select Room Status</option>
+                            <option value="Vacant">Vacant</option>
+                            <option value="Waiting">Waiting</option>
+                            <option value="Booked">Booked</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a room status.
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
