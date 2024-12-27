@@ -74,6 +74,7 @@
     </div>
     <!-- end about -->
     <!-- our_room -->
+    <!-- our_room -->
     <div class="our_room">
         <div class="container">
             <div class="row">
@@ -85,7 +86,7 @@
                 </div>
             </div>
             <div class="row">
-                @foreach($rooms as $room)
+                @foreach($rooms->take(6) as $room)
                     <div class="col-md-4 col-sm-6">
                         <div class="room room-hover" id="room-{{ $room->id }}">
                             <div class="room_img">
@@ -115,6 +116,7 @@
         </div>
     </div>
     <!-- our_room -->
+
     <!-- gallery -->
     <div class="gallery">
         <div class="container">
@@ -126,7 +128,7 @@
                 </div>
             </div>
             <div class="row">
-                @foreach($rooms as $room)
+                @foreach($rooms->take(6) as $room)
                     <div class="col-md-4 col-sm-6">
                         <div class="room room-hover" id="room-{{ $room->id }}">
                             <div class="room_img">
@@ -139,6 +141,7 @@
         </div>
     </div>
     <!-- end gallery -->
+
     <!-- blog -->
     <div class="blog">
         <div class="container">
@@ -151,7 +154,7 @@
                 </div>
             </div>
             <div class="row">
-                @foreach($rooms as $room)
+                @foreach($rooms->take(6) as $room)
                     <div class="col-md-4">
                         <div class="blog_box">
                             <div class="blog_img">

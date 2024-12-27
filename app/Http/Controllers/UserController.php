@@ -19,6 +19,7 @@ class UserController extends Controller
         $rooms = Room::whereNotIn('id', $bookedRoomIds)->get(); // Fetch all available rooms
         return view('hotel.book', compact('rooms'));
     }
+
     public function storeBooking(Request $request)
     {
         $request->validate([

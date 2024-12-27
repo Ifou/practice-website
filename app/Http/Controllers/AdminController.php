@@ -8,7 +8,7 @@ use App\Models\Booking;
 
 class AdminController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
         if (Auth::check()) {
             $user = Auth::user();
 
@@ -16,7 +16,15 @@ class AdminController extends Controller
                 $rooms = Room::all(); // Fetch all rooms
                 return view('hotel.index', compact('rooms'));
             } else if ($user->usertype == 'admin') {
-                return view('admin.index');
+                $bookedClientsCount = Booking::count();
+                $vacantRoomsCount = Room::where('room_status', 'Vacant')->count();
+                $waitingRoomsCount = Room::where('room_status', 'Waiting')->count();
+                $bookedRoomsCount = Room::where('room_status', 'Booked')->count();
+
+                $perPage = $request->get('per_page', 10); // Default to 10 entries per page
+                $bookings = Booking::with('room')->paginate($perPage);
+
+                return view('admin.index', compact('bookedClientsCount', 'vacantRoomsCount', 'waitingRoomsCount', 'bookedRoomsCount', 'bookings', 'perPage'));
             } else {
                 return redirect()->back();
             }
@@ -24,9 +32,26 @@ class AdminController extends Controller
             return redirect()->route('login');
         }
     }
-    public function hotel() {
+
+    public function hotel()
+    {
         $rooms = Room::all(); // Fetch all rooms
         return view('hotel.index', compact('rooms'));
+    }
+
+    public function booked_users(Request $request) {
+        // Fetch statistics
+        $bookedClientsCount = Booking::count();
+        $vacantRoomsCount = Room::where('room_status', 'Vacant')->count();
+        $waitingRoomsCount = Room::where('room_status', 'Waiting')->count();
+        $bookedRoomsCount = Room::where('room_status', 'Booked')->count();
+
+        // Fetch bookings with pagination
+        $perPage = $request->get('per_page', 10); // Default to 10 entries per page
+        $bookings = Booking::with('room')->paginate($perPage);
+
+        // Pass data to the view
+        return view('admin.booked_users', compact('bookedClientsCount', 'vacantRoomsCount', 'waitingRoomsCount', 'bookedRoomsCount', 'bookings', 'perPage'));
     }
 
     public function create_room() {

@@ -8,31 +8,30 @@
             <p>Web Designer</p>
         </div>
     </div>
-    <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
-    <ul class="list-unstyled">
-        <li class="active"><a href={{route('home')}}> <i class="icon-home"></i>Home </a></li>
-{{--        <li><a href="admin/tables.html"> <i class="icon-grid"></i>Tables </a></li>--}}
-{{--        <li><a href="admin/charts.html"> <i class="fa fa-bar-chart"></i>Charts </a></li>--}}
-{{--        <li><a href="admin/forms.html"> <i class="icon-padnote"></i>Forms </a></li>--}}
-
-        <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Hotel Management </a>
+    <!-- Sidebar Navigation Menus-->
+    <span class="heading">Main</span>
+    <ul class="list-unstyled" id="sidebar-menu">
+        <li id="home-link" class="active"><a href={{route('home')}}> <i class="icon-home"></i>Home </a></li>
+        <li id="hotel-management-link"><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Hotel Management </a>
             <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                 <li><a href={{url('view_room')}}>View Rooms</a></li>
                 <li><a href={{url('create_room')}}>Add Rooms </a></li>
             </ul>
         </li>
-
-{{--        <li>--}}
-{{--            <a href="admin/login.html"> <i class="icon-logout"></i>Login page </a>--}}
-{{--        </li>--}}
-{{--    </ul>--}}
-{{--    <span class="heading">--}}
-{{--        Extras--}}
-{{--    </span>--}}
-{{--    <ul class="list-unstyled">--}}
-{{--        <li> <a href="#"> <i class="icon-settings"></i>Demo </a></li>--}}
-{{--        <li> <a href="#"> <i class="icon-writing-whiteboard"></i>Demo </a></li>--}}
-{{--        <li> <a href="#"> <i class="icon-chart"></i>Demo </a></li>--}}
+        <li id="booking-table-link"><a href={{url('booked_users')}}> <i class="icon-home"></i>Booking Table </a></li>
     </ul>
 </nav>
 <!-- Sidebar Navigation end-->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const links = document.querySelectorAll('#sidebar-menu li');
+
+        links.forEach(link => {
+            link.addEventListener('click', function() {
+                links.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    });
+</script>
