@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Room;
 use App\Models\Booking;
+use App\Models\Contact;
 
 class AdminController extends Controller
 {
@@ -18,13 +19,12 @@ class AdminController extends Controller
             } else if ($user->usertype == 'admin') {
                 $bookedClientsCount = Booking::count();
                 $vacantRoomsCount = Room::where('room_status', 'Vacant')->count();
-                $waitingRoomsCount = Room::where('room_status', 'Waiting')->count();
                 $bookedRoomsCount = Room::where('room_status', 'Booked')->count();
 
                 $perPage = $request->get('per_page', 10); // Default to 10 entries per page
                 $bookings = Booking::with('room')->paginate($perPage);
 
-                return view('admin.index', compact('bookedClientsCount', 'vacantRoomsCount', 'waitingRoomsCount', 'bookedRoomsCount', 'bookings', 'perPage'));
+                return view('admin.index', compact('bookedClientsCount', 'vacantRoomsCount', 'bookedRoomsCount', 'bookings', 'perPage'));
             } else {
                 return redirect()->back();
             }
@@ -43,7 +43,6 @@ class AdminController extends Controller
         // Fetch statistics
         $bookedClientsCount = Booking::count();
         $vacantRoomsCount = Room::where('room_status', 'Vacant')->count();
-        $waitingRoomsCount = Room::where('room_status', 'Waiting')->count();
         $bookedRoomsCount = Room::where('room_status', 'Booked')->count();
 
         // Fetch bookings with pagination
@@ -51,7 +50,34 @@ class AdminController extends Controller
         $bookings = Booking::with('room')->paginate($perPage);
 
         // Pass data to the view
-        return view('admin.booked_users', compact('bookedClientsCount', 'vacantRoomsCount', 'waitingRoomsCount', 'bookedRoomsCount', 'bookings', 'perPage'));
+        return view('admin.booked_users', compact('bookedClientsCount', 'vacantRoomsCount', 'bookedRoomsCount', 'bookings', 'perPage'));
+    }
+
+    public function view_contacts() {
+        $contacts = Contact::all(); // Fetch all contacts
+        return view('admin.view_contacts', compact('contacts'));
+    }
+
+    public function approveBooking($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->room->update(['room_status' => 'Booked']);
+        return redirect()->back()->with('success', 'Booking approved successfully.');
+    }
+
+    public function rejectBooking($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->room->update(['room_status' => 'Rejected']);
+        return redirect()->back()->with('success', 'Booking rejected successfully.');
+    }
+
+    public function destroyBooking($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->delete();
+
+        return redirect()->back()->with('success', 'Booking deleted successfully.');
     }
 
     public function create_room() {
@@ -66,7 +92,7 @@ class AdminController extends Controller
             'room_image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'room_price' => 'required|string|max:255',
             'room_type' => 'required|string|max:255',
-            'room_status' => 'required|string|in:Vacant,Waiting,Booked',
+            'room_status' => 'required|string|in:Vacant,Booked',
             'room_capacity' => 'required|string|max:255',
             'room_wifi' => 'required|string|max:255',
         ]);

@@ -135,16 +135,16 @@
                                     <a class="nav-link" href={{route('hotel')}}>Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.html">About</a>
+                                    <a class="nav-link" href="{{url('aboutus')}}">About</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="room.html">Our room</a>
+                                    <a class="nav-link" href="{{url('viewourroom')}}">Our room</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="gallery.html">Gallery</a>
+                                    <a class="nav-link" href="{{url('viewgallery')}}">Gallery</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">Contact Us</a>
+                                    <a class="nav-link" href="{{url('viewcontactus')}}">Contact Us</a>
                                 </li>
                             </ul>
                             <!-- User Dropdown -->

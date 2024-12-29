@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('room_image')->nullable();
             $table->string('room_price')->nullable();
             $table->string('room_type')->nullable();
-            $table->enum('room_status', ['Vacant', 'Waiting', 'Booked'])->nullable();
+            $table->enum('room_status', ['Vacant', 'Rejected', 'Booked'])->nullable();
             $table->string('room_capacity')->nullable();
             $table->string('room_wifi')->nullable();
             $table->timestamps();

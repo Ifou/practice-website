@@ -19,7 +19,7 @@ class RoomFactory extends Factory
             'room_image' => $this->faker->imageUrl,
             'room_price' => $this->faker->randomNumber(2),
             'room_type' => $this->faker->word,
-            'room_status' => $this->faker->randomElement(['Vacant', 'Waiting', 'Booked']),
+            'room_status' => $this->faker->randomElement(['Vacant', 'Booked']),
             'room_capacity' => $this->faker->randomNumber(1),
             'room_wifi' => $this->faker->boolean,
         ];

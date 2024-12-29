@@ -1,121 +1,140 @@
-<x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+<style>
+    .input-material {
+        position: relative;
+        z-index: 1;
+        background: none;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        width: 100%;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #333;
+    }
 
-        <x-validation-errors class="mb-4" />
+    .input-material:focus {
+        outline: none;
+        border-bottom: 1px solid #DB6574;
+    }
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+    .label-material {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        font-size: 16px;
+        color: #aaa;
+        transition: all 0.2s ease;
+    }
 
-            <div>
-                <x-label for="name" value="{{ __('Name') }}" />
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            </div>
+    .input-material:focus + .label-material,
+    .input-material:not(:placeholder-shown) + .label-material {
+        top: -20px;
+        font-size: 12px;
+        color: #DB6574;
+    }
+</style>
 
-            <div class="mt-4">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="phone" value="{{ __('Phone Number') }}" />
-                <x-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="phone" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <div class="relative">
-                    <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" oninput="validatePassword()" />
-                    <button type="button" onclick="togglePasswordVisibility('password')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                        {{ __('Show') }}
-                    </button>
-                </div>
-                <p id="password-strength" class="text-sm mt-1"></p>
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <div class="relative">
-                    <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" oninput="validatePasswordMatch()" />
-                    <button type="button" onclick="togglePasswordVisibility('password_confirmation')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                        {{ __('Show') }}
-                    </button>
-                </div>
-                <p id="password-match" class="text-sm mt-1"></p>
-            </div>
-
-            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-4">
-                    <x-label for="terms">
-                        <div class="flex items-center">
-                            <x-checkbox name="terms" id="terms" required />
-
-                            <div class="ms-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Privacy Policy').'</a>',
-                                ]) !!}
+<!DOCTYPE html>
+<html>
+<base href="{{ asset('/public') }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dark Bootstrap Admin</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="{{ asset('admin/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="{{ asset('admin/vendor/font-awesome/css/font-awesome.min.css') }}">
+    <!-- Custom Font Icons CSS-->
+    <link rel="stylesheet" href="{{ asset('admin/css/font.css') }}">
+    <!-- Google fonts - Muli-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="{{ asset('admin/css/style.default.css') }}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{{ asset('admin/css/custom.css') }}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{{ asset('admin/img/favicon.ico') }}">
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
+<body>
+<div class="login-page">
+    <div class="container d-flex align-items-center">
+        <div class="form-holder has-shadow">
+            <div class="row">
+                <!-- Logo & Information Panel-->
+                <div class="col-lg-6">
+                    <div class="info d-flex align-items-center">
+                        <div class="content">
+                            <div class="logo">
+                                <h1>Register</h1>
                             </div>
+                            <p>Enter your credentials.</p>
                         </div>
-                    </x-label>
+                    </div>
                 </div>
-            @endif
-
-            <div class="flex flex-col items-center mt-4 space-y-2">
-                <x-button>
-                    {{ __('Register') }}
-                </x-button>
-
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
+                <!-- Form Panel    -->
+                <div class="col-lg-6 bg-white">
+                    <div class="form d-flex align-items-center">
+                        <div class="content">
+                            <form method="POST" action="{{ route('register') }}">
+                                @csrf
+                                <div class="form-group">
+                                    <input id="name" type="text" name="name" required data-msg="Please enter your name" class="input-material" placeholder=" " :value="old('name')" autofocus>
+                                    <label for="name" class="label-material">Name</label>
+                                </div>
+                                <div class="form-group">
+                                    <input id="email" type="email" name="email" required data-msg="Please enter your email" class="input-material" placeholder=" " :value="old('email')">
+                                    <label for="email" class="label-material">Email</label>
+                                </div>
+                                <div class="form-group">
+                                    <input id="password" type="password" name="password" required data-msg="Please enter your password" class="input-material" placeholder=" ">
+                                    <label for="password" class="label-material">Password</label>
+                                </div>
+                                <div class="form-group">
+                                    <input id="password_confirmation" type="password" name="password_confirmation" required data-msg="Please confirm your password" class="input-material" placeholder=" ">
+                                    <label for="password_confirmation" class="label-material">Confirm Password</label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" id="show-password" onclick="togglePassword()"> Show Password
+                                </div>
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            </form>
+                            <small>Already have an account? </small><a href="{{ route('login') }}" class="signup">Login</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
-    </x-authentication-card>
-</x-guest-layout>
-
+        </div>
+    </div>
+    <div class="copyrights text-center">
+        <p>2024 &copy; Keto Designs.</p>
+    </div>
+</div>
+<!-- JavaScript files-->
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('vendor/popper.js/umd/popper.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('vendor/jquery.cookie/jquery.cookie.js') }}"></script>
+<script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
+<script src="{{ asset('vendor/jquery-validation/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('js/front.js') }}"></script>
 <script>
-    function togglePasswordVisibility(id) {
-        var passwordField = document.getElementById(id);
-        var passwordFieldType = passwordField.type;
-        if (passwordFieldType === 'password') {
-            passwordField.type = 'text';
+    function togglePassword() {
+        var passwordField = document.getElementById("password");
+        var passwordConfirmationField = document.getElementById("password_confirmation");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            passwordConfirmationField.type = "text";
         } else {
-            passwordField.type = 'password';
-        }
-    }
-
-    function validatePassword() {
-        var password = document.getElementById('password').value;
-        var strengthText = document.getElementById('password-strength');
-        var regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
-
-        if (regex.test(password)) {
-            strengthText.textContent = 'Strong password';
-            strengthText.style.color = 'green';
-        } else {
-            strengthText.textContent = 'Password must be at least 8 characters long, contain at least one capital letter and one special character.';
-            strengthText.style.color = 'red';
-        }
-
-        validatePasswordMatch();
-    }
-
-    function validatePasswordMatch() {
-        var password = document.getElementById('password').value;
-        var confirmPassword = document.getElementById('password_confirmation').value;
-        var matchText = document.getElementById('password-match');
-
-        if (password === "") {
-            matchText.textContent = '';
-        } else if (password === confirmPassword) {
-            matchText.textContent = 'Passwords match';
-            matchText.style.color = 'green';
-        } else {
-            matchText.textContent = 'Passwords do not match';
-            matchText.style.color = 'red';
+            passwordField.type = "password";
+            passwordConfirmationField.type = "password";
         }
     }
 </script>
+</body>
+</html>

@@ -19,6 +19,7 @@
             </ul>
         </li>
         <li id="booking-table-link"><a href={{url('booked_users')}}> <i class="icon-home"></i>Booking Table </a></li>
+        <li id="view-contacts-link"><a href="{{ route('view_contacts') }}"> <i class="icon-mail"></i>View Contacts </a></li>
     </ul>
 </nav>
 <!-- Sidebar Navigation end-->

@@ -75,7 +75,6 @@
                         <select class="form-control" id="room_status" name="room_status" required>
                             <option value="" disabled selected>Select Room Status</option>
                             <option value="Vacant">Vacant</option>
-                            <option value="Waiting">Waiting</option>
                             <option value="Booked">Booked</option>
                         </select>
                         <div class="invalid-feedback">

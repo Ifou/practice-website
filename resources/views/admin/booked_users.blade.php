@@ -1,4 +1,19 @@
 <html>
+
+<style>
+    .status-booked {
+        color: green;
+    }
+
+    .status-vacant {
+        color: white;
+    }
+
+    .status-rejected {
+        color: red;
+    }
+</style>
+
 <head>
     @include('admin.css')
 </head>
@@ -15,62 +30,6 @@
             </div>
         </div>
         <section class="no-padding-top no-padding-bottom">
-{{--            <div class="container-fluid">--}}
-{{--                <div class="row">--}}
-{{--                    <div class="col-md-3 col-sm-6">--}}
-{{--                        <div class="statistic-block block">--}}
-{{--                            <div class="progress-details d-flex align-items-end justify-content-between">--}}
-{{--                                <div class="title">--}}
-{{--                                    <div class="icon"><i class="icon-user-1"></i></div><strong>Booked Clients</strong>--}}
-{{--                                </div>--}}
-{{--                                <div class="number dashtext-1">{{ $bookedClientsCount }}</div>--}}
-{{--                            </div>--}}
-{{--                            <div class="progress progress-template">--}}
-{{--                                <div role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-md-3 col-sm-6">--}}
-{{--                        <div class="statistic-block block">--}}
-{{--                            <div class="progress-details d-flex align-items-end justify-content-between">--}}
-{{--                                <div class="title">--}}
-{{--                                    <div class="icon"><i class="icon-question"></i></div><strong>Vacant Rooms</strong>--}}
-{{--                                </div>--}}
-{{--                                <div class="number dashtext-2">{{ $vacantRoomsCount }}</div>--}}
-{{--                            </div>--}}
-{{--                            <div class="progress progress-template">--}}
-{{--                                <div role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-md-3 col-sm-6">--}}
-{{--                        <div class="statistic-block block">--}}
-{{--                            <div class="progress-details d-flex align-items-end justify-content-between">--}}
-{{--                                <div class="title">--}}
-{{--                                    <div class="icon"><i class="icon-hour-glass"></i></div><strong>Waiting Rooms</strong>--}}
-{{--                                </div>--}}
-{{--                                <div class="number dashtext-3">{{ $waitingRoomsCount }}</div>--}}
-{{--                            </div>--}}
-{{--                            <div class="progress progress-template">--}}
-{{--                                <div role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-3"></div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-md-3 col-sm-6">--}}
-{{--                        <div class="statistic-block block">--}}
-{{--                            <div class="progress-details d-flex align-items-end justify-content-between">--}}
-{{--                                <div class="title">--}}
-{{--                                    <div class="icon"><i class="icon-contract"></i></div><strong>Booked Rooms</strong>--}}
-{{--                                </div>--}}
-{{--                                <div class="number dashtext-4">{{ $bookedRoomsCount }}</div>--}}
-{{--                            </div>--}}
-{{--                            <div class="progress progress-template">--}}
-{{--                                <div role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-4"></div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
             <div class="col-lg">
                 <div class="block">
                     <div class="title d-flex justify-content-between align-items-center">
@@ -99,6 +58,7 @@
                                 <th>Room Title</th>
                                 <th>Room Type</th>
                                 <th>Room Price</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -110,10 +70,27 @@
                                     <td>{{ $booking->email }}</td>
                                     <td>{{ $booking->start_date }}</td>
                                     <td>{{ $booking->end_date }}</td>
-                                    <td>{{ $booking->room->room_status }}</td>
+                                    <td class="status-{{ strtolower($booking->room->room_status) }}">{{ $booking->room->room_status }}</td>
                                     <td>{{ $booking->room->room_title }}</td>
                                     <td>{{ $booking->room->room_type }}</td>
                                     <td>{{ $booking->room->room_price }}</td>
+                                    <td>
+                                        <form action="{{ route('bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                        <form action="{{ route('bookings.approve', $booking->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                        </form>
+                                        <form action="{{ route('bookings.reject', $booking->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
