@@ -21,8 +21,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/bookings/{id}/approve', [AdminController::class, 'approveBooking'])->name('bookings.approve');
     Route::put('/bookings/{id}/reject', [AdminController::class, 'rejectBooking'])->name('bookings.reject');
     Route::get('/view_contacts', [AdminController::class, 'view_contacts'])->name('view_contacts');
+    Route::post('/send_email', [AdminController::class, 'sendEmail'])->name('admin.send_email');
 });
-
 
 // User routes
 

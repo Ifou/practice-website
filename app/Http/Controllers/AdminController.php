@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Room;
 use App\Models\Booking;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMail;
 
 class AdminController extends Controller
 {
@@ -31,6 +33,24 @@ class AdminController extends Controller
         } else {
             return redirect()->route('login');
         }
+    }
+
+    public function sendEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        $details = [
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ];
+
+        Mail::to($request->email)->send(new ContactMail($details));
+
+        return redirect()->back()->with('success', 'Email sent successfully.');
     }
 
     public function hotel()
